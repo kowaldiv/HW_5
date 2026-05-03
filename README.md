@@ -1,73 +1,22 @@
-# React + TypeScript + Vite
+# Ответы на вопросы!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Чем useCallback отличается от useMemo? Когда использовать каждый?
+с помощью useCallBack мы мемоизируем обычные функции в компанентах чтоб они не перерендеривались при перерендерах компанента, а с помощью memo мы мемоизируем компаненты чтоб они не перерендеривались если не поменялись пропсы
 
-Currently, two official plugins are available:
+- Почему React.memo не помогает, если колбэк передаётся без useCallback?
+потому что функция будет пересоздаваться, значит пересоздается ссылка на неё и компанент все равно будет перерендериватся не смотря на memo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Когда стоит использовать useReducer вместо useState? По какому признаку вы принимаете это решение?
+когда состояние сложное, например объект с полями и их надо вместе менять
 
-## React Compiler
+- Что такое useRef и почему изменение .current не вызывает ре-рендер?
+это хранилище которое сохраняется между перерендерами. Не перерендеривает компанент потому что react следит только за состояниями state, но не за ref
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Зачем useContext нужен провайдер (Provider)? Что произойдёт, если использовать useContext вне провайдера?
+Дерево нужно чтоб контекст передовался только по этому дереву. Если использовать useContext все провайдера, то вы получите просто изначальное значение которое вписывали в createContext(вот тут)
 
-## Expanding the ESLint configuration
+- В чём разница между controlled и uncontrolled инпутом? Как React Hook Form использует uncontrolled подход?
+контролируемый инпут значит что мы в js точно знаем какое значение в нем, например с помощью useState. RHF использует ref под капотом что не вызывает частые перерендеры
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Почему zodResolver — это не валидация на сервере? Где ещё нужно валидировать данные?
+потому что мы их используем на клиенте чтоб пользователь не ждал пока с сервера придет ответ что данные не в верном формаье а сразу на клиенте их проверил перед отправкой. Еще данные обязательно надо валидировать на беке, потому что злоумышленник может отправить что угодно на сервер, и надо всегда проверять что приходит
